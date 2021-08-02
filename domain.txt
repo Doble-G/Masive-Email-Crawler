@@ -1,0 +1,4 @@
+https://example.com
+www.example2.com
+https://example3.com
+example4.com
