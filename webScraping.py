@@ -7,7 +7,7 @@ import threading
 
 
 #change for have less or more threads 
-THREADS=40000
+THREADS=20
 #file with direccionts web
 DOMAIN_FILE="domain.txt"
 #file to writes mails
