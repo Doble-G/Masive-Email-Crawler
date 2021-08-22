@@ -16,12 +16,13 @@ MAIL_FILE="mails.txt"
 
 
 LOCK=threading.Lock()
-"""
-Function that gets a xml from a web
-@param web : example https://ww.google.es
-return xml as string
-"""
+
 def get_string_from_web(web):
+    """
+    Function that gets a xml from a web
+    @param web : example https://ww.google.es
+    return xml as string
+    """
     urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
     try:
         return requests.get(web,verify=False).text
@@ -33,29 +34,32 @@ def get_string_from_web(web):
                 return requests.get("https://"+web,verify=False).text
             except:
                 return ""
-"""
-Function gets all webs in a content of string
-@param string : string 
-return list of webs
-"""    
+  
 def get_all_webs_from_string(string):
+    """
+    Function gets all webs in a content of string
+    @param string : string 
+    return list of webs
+    """  
     return get_all_matches_from_string(r'(https+:[/][/]www.)([a-z]|[A-Z]|[0-9]|[/.]|[~])*',string)
 
-"""
-Function gets all mails in a content of string
-@param string : string 
-return list of mails
-""" 
+ 
 def get_all_mail_from_string(string):
+    """
+    Function gets all mails in a content of string
+    @param string : string 
+    return list of mails
+    """
     return get_all_matches_from_string(r"""(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])""",string)
 
-"""
-Function gets all matches in a content of string
-@param pattern : pattern to match
-@param string : string to process
-return list of maches
-""" 
+ 
 def get_all_matches_from_string(pattern,string):
+    """
+    Function gets all matches in a content of string
+    @param pattern : pattern to match
+    @param string : string to process
+    return list of maches
+    """
     pattern=re.compile(pattern)
     out=[]
     pos=0
@@ -69,24 +73,25 @@ def get_all_matches_from_string(pattern,string):
         # Move forward in text for the next search
         pos = e
     return out
-"""
-Function that gets the domain fo a web
-@param web : web that is going to process as string
-return domain
-"""
+
 def get_domain_in_web(web):
+    """
+    Function that gets the domain fo a web
+    @param web : web that is going to process as string
+    return domain
+    """
     extracted=tldextract.extract(web)
     try:
         return extracted[1]
     except:
         return None
-"""
-Function that gets all mails in a web and subdomains linked
-@param web : web that is going to process
-return list all mails
-"""
 
 def process_web(web):
+    """
+    Function that gets all mails in a web and subdomains linked
+    @param web : web that is going to process
+    return list all mails
+    """
     links=[]
     links.append(web)
     mails=[]
@@ -113,23 +118,26 @@ def process_web(web):
         links_to_process=aux    
     return mails
 
-"""
-Splits a list in n parts of same size
-"""
+
 def split_list_n_parts(list_in,n):
+    """
+    Splits a list in n parts of same size
+    """
     z=int(len(list_in)/n)+1 
     return [list_in[i:i + z] for i in range(0, len(list_in),z)]
-"""
-Process a list of domains
-"""
+
 def process(list_domains):
+    """
+    Process a list of domains
+    """
     for i in list_domains:
         mails=process_web(i)
         write_mails(mails)
-"""
-Write mails in MAIL_FILE
-"""
+
 def write_mails(mails):
+    """
+    Write mails in MAIL_FILE
+    """
     global LOCK
     if mails!=[]:
         LOCK.acquire()
