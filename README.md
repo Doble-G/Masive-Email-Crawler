@@ -11,4 +11,4 @@ It takes all urls in domain.txt and extract in all email in all pages linked of 
 
 For start proyect change the number of threads as you want and change the file domain.txt with 
 
-For any questions or suggestions contact with me at andres3andres@gmail.com
+
